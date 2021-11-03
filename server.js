@@ -11,6 +11,10 @@ const app = express();
 
 app.use(express.static('public'));
 
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
+})
+
 //set the port and log that the server is running
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT}`)
