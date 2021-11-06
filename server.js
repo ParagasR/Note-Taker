@@ -11,6 +11,11 @@ app.use('/api', api);
 //Middleware
 app.use(express.static('public'));
 
+//declare root directory
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'))
+})
+
 //load notes.html at the address /notes
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'))
