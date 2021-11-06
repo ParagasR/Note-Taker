@@ -1,12 +1,13 @@
 const express = require('express');
-
 //allows use for __dirname & path.join
 const path = require('path');
+const api = require('./routes/index')
 
 const PORT = 3001;
 
 const app = express();
 app.use(express.json());
+app.use('/api', api);
 //Middleware
 app.use(express.static('public'));
 
