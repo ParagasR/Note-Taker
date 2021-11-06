@@ -1,7 +1,8 @@
 const notes = require('express').Router();
-const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
+const { readAndAppend, readFromFile, writeToFile } = require('../helpers/fsUtils');
 const uniqId = require('uniqid');
 const fs = require('fs');
+const { stringify } = require('querystring');
 
 //renders the array of objects
 notes.get('/', (req, res) => {
@@ -29,8 +30,23 @@ notes.post('/', (req, res) => {
     }
 })
 
+notes.delete('/:id', (req, res) => {
+    // console.log(req.params)
 
+    const { id } = req.params;
+    
+    readFromFile('./db/db.json').then((data) => {
+        // console.log(JSON.parse(data))
+        data = JSON.parse(data)
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === id){
+                data.splice(i, 1)
+                writeToFile('./db/db.json', data)
+                
+            }
+        }
+        res.json(data)
+    })
+})
 
 module.exports = notes;
-
-//issues: not going to .then after calling the fetch/post
