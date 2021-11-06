@@ -31,20 +31,23 @@ notes.post('/', (req, res) => {
 })
 
 notes.delete('/:id', (req, res) => {
-    // console.log(req.params)
-
+    //spread the parameters by id
     const { id } = req.params;
     
+    //read the databases infor
     readFromFile('./db/db.json').then((data) => {
-        // console.log(JSON.parse(data))
+        // just parsing the data once to be used
         data = JSON.parse(data)
+        // find the index that matches the parameter
         for (let i = 0; i < data.length; i++) {
             if (data[i].id === id){
+                //remove the data from the array
                 data.splice(i, 1)
+                //rewrite the data back to the .json file
                 writeToFile('./db/db.json', data)
-                
             }
         }
+        //send the response back
         res.json(data)
     })
 })
